@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Prediction</title>
+</head>
+
+<body>
+    <form name="myForm" method="post" id="form">
+        Enter Sepal Length: <input type="text" id="sepal_length"> <br>
+        Enter Sepal Width: <input type="text" id="sepal_width"> <br>
+        Enter Petal Length: <input type="text" id="petal_length"> <br>
+        Enter Petal Width: <input type="text" id="petal_width"> <br>
+        <br><br>
+
+        <input type="submit" value="SUBMIT" />
+    </form>
+
+    <h2 id="res"></h2>
+
+    <script>
+
+
+        var form = document.getElementById('form')
+
+        form.addEventListener('submit', function (e) {
+
+            e.preventDefault()
+            var sl = document.getElementById("sepal_length")
+            var sw = document.getElementById("sepal_width")
+            var pl = document.getElementById("petal_length")
+            var pw = document.getElementById("petal_width")
+            var res = document.getElementById("res")
+
+            let data = {
+                sepal_length: parseFloat(sl.value),
+                sepal_width: parseFloat(sw.value),
+                petal_length: parseFloat(pl.value),
+                petal_width: parseFloat(pw.value)
+            }
+
+
+
+            fetch("https://flower-pred-app-02.herokuapp.com/api/flower", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(res => {
+                return res.json()
+            })
+                .then(function (data) {
+                    console.log(data)
+                    res.innerHTML = `Flower class is ${data}`
+
+                })
+
+        })
+
+    </script>
+
+</body>
+
+</html>
